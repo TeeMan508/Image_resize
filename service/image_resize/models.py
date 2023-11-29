@@ -2,12 +2,11 @@ from django.db import models
 
 
 class Image(models.Model):
-    name = models.CharField(max_length=100)
-    height_before = models.IntegerField()
-    width_before = models.IntegerField()
-    height_after = models.IntegerField()
-    width_after = models.IntegerField()
+    image_name = models.CharField(max_length=100)
+    image_height = models.IntegerField()
+    image_width = models.IntegerField()
+    image_file = models.FileField(upload_to='media/')
 
     def __str__(self):
-        return f"Image: {self.name}"
+        return f"Image: {self.image_name}"
     

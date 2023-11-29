@@ -14,16 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
 from rest_framework import routers
-
+from django.conf.urls.static import static
 from image_resize.views import ImageView
+from image_resize.views import main_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', main_view),
+    path('image_resize/', include('image_resize.urls', namespace='image_resize')),
 ]
 
-router = routers.DefaultRouter()
-router.register(r'api/images', ImageView)
-
-urlpatterns += router.urls
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
