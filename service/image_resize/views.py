@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from image_resize.models import Image
 from image_resize.serializer import ImageSerializer
-
+from image_resize.tasks import resize_prompt_image
 
 class ImageView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -17,6 +17,7 @@ class ImageView(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            resize_prompt_image.delay(serializer.data)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED

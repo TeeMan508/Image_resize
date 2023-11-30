@@ -128,7 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/service/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 REST_FRAMEWORK = {
@@ -137,3 +137,5 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'
     )
 }
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
