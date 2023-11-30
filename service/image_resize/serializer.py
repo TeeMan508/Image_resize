@@ -55,7 +55,7 @@ class Base64ImageField(serializers.ImageField):
 
 class ImageSerializer(serializers.ModelSerializer):
     image_file = Base64ImageField(
-        max_length=None
+        max_length=None,
     )
 
     class Meta:

@@ -1,0 +1,41 @@
+input[type=range] {
+    margin-top: 90px;
+    width: 250px;
+}
+
+input[type=range][orient=vertical] {
+
+    margin-left: 150px;
+    -webkit-transform : rotate(270deg);
+
+    -moz-transform: rotate(270deg);
+
+    transform: rotate(270deg);
+}
+
+.main_form {
+    margin: auto;
+    width:250px;
+
+}
+body {
+    display: flex;
+}
+
+input::file-selector-button {
+    color: white;
+    padding: 0.4em;
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 5px;
+}
+
+input::file-selector-button:hover {
+    background-color: #085fd7;
+}
+
+.base_image_container {
+    position: absolute;
+    z-index: 10;
+    top: 82px;
+}

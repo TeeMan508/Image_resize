@@ -22,24 +22,26 @@ function getCookie(name) {
 const csrftoken = getCookie('csrftoken');
 
 const onSubmit = () => {
-    data_file = document.querySelector('#image_file');
-    data = Array.from(document.querySelectorAll('#image_form input')).reduce((acc, input) =>
-        ({...acc, [input.id]: input.value}), {});
-        const payload = {
-            image_name: data.image_name,
-            image_height: data.image_height,
-            image_width: data.image_width,
-            image_file: data_file.value,
-        }
-        console.log(payload);
-        axios.post('/image_resize/', payload, {
-            headers: {
+    let img_name_input = document.getElementById("image_name");
+    let img_height_input = document.getElementById("image_width");
+    let img_width_input = document.getElementById("image_height");
+    let img_file_input = document.getElementById("image_file");
+
+
+    let formData = new FormData();
+    formData.append("image_name", img_name_input.value)
+    formData.append("image_height", img_height_input.value)
+    formData.append("image_width", img_width_input.value)
+    formData.append("image_file", img_file_input.files[0]);
+
+    axios.post('/image_resize/', formData, {
+        headers: {
                 'Content-Type': 'multipart/form-data',
                 'X-CSRFToken': csrftoken,
-            }
-        }).then(res => {
-            console.log(res);
-        }).catch(err => {
-            console.log(err.response.data);
-        })
-    }
+        }
+    }).then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.log(err.response.data);
+    })
+}
