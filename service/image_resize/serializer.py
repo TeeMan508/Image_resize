@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from image_resize.models import Image
+from image_resize.models import UnprocessedImage, ProcessedImage
 
 
 class Base64ImageField(serializers.ImageField):
@@ -53,12 +53,19 @@ class Base64ImageField(serializers.ImageField):
         return extension
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class UnprocessedImageSerializer(serializers.ModelSerializer):
     image_file = Base64ImageField(
         max_length=None,
     )
 
     class Meta:
-        model = Image
+        model = UnprocessedImage
         fields = ("id", "image_name", "image_height", "image_width", "image_file")
+        # fields = '__all__'
+
+
+class ProcessedImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProcessedImage
+        fields = ("task_id", )
         # fields = '__all__'
