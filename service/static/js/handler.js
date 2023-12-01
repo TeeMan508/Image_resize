@@ -26,7 +26,19 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function remove_overlay() {
+    let overlay = document.getElementById("overlay");
+    overlay.classList.remove("active_overlay")
+}
+
+function add_overlay() {
+    let overlay = document.getElementById("overlay");
+    overlay.classList.add("active_overlay")
+}
+
 const onSubmit = () => {
+    add_overlay();
+
     let img_name_input = document.getElementById("image_name");
     let img_height_input = document.getElementById("image_width");
     let img_width_input = document.getElementById("image_height");
@@ -47,6 +59,7 @@ const onSubmit = () => {
     }).then(res => {
         check(res.data);
     }).catch(err => {
+        remove_overlay()
         console.log(err.response.data);
     })
 }
@@ -63,17 +76,58 @@ const check = (data) => {
     })
     .then(res => {
         if (res.status === 202){
-            console.log(202);
+            check(data);
         }
         else {
-            console.log(200)
-            insert_resized_image();
+            if (res.status === 200){
+                insert_resized_image(res.data.image_file) ;
+            }
+            else {
+                remove_overlay();
+                console.log(res);
+            }
         }
     }).catch(err => {
+        remove_overlay();
         console.log(err.response.data);
     })
 }
 
-const insert_resized_image = () => {
+const insert_resized_image = (data) => {
+    const src = document.getElementById("overlay");
+
+    let scorp = document.getElementById("scorpion");
+    src.removeChild(scorp);
+
+    const img = document.createElement("img");
+    img.src = data;
+    img.id = "resized_preview_id";
+    src.appendChild(img);
+
+    const btn = document.createElement("button");
+    btn.textContent = 'Close';
+    btn.id = 'close_button_id';
+    btn.onclick = onClose;
+    btn.classList.add("btn");
+    btn.classList.add("btn-primary");
+    src.appendChild(btn);
+}
+
+const onClose = () => {
+    const src = document.getElementById("overlay");
+    src.classList.remove("active_overlay")
+
+    let btn = document.getElementById("close_button_id");
+    src.removeChild(btn);
+
+    let resized_preview = document.getElementById("resized_preview_id");
+    src.removeChild(resized_preview);
+
+    let img = document.createElement("img");
+    img.src = "/static/images/scorpion.gif";
+    img.width = 450;
+    img.id = "scorpion";
+    src.appendChild(img);
+
 
 }
